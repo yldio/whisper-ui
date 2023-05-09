@@ -15,7 +15,7 @@ use dirs::home_dir;
 enum CargoCli {
     /// Setup whisper-cli to convert audio files to text
     Setup {
-        /// Install ffmpeg
+        /// Install ffmpeg (brew required)
         #[arg(short = 'f', long = "ffmpeg")]
         ffmpeg: bool,
     },
