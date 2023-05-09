@@ -19,12 +19,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - run: |
+      - name: install rust
+        run: |
           rustup set auto-self-update disable
           rustup toolchain install stable --profile minimal
 
       - uses: FedericoCarboni/setup-ffmpeg@v2
 
-      - run: |
+      - name: run tests
+        run: |
           cargo check
           cargo test
