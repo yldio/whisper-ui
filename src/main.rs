@@ -163,7 +163,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_setup() {
+    fn test_workflow() {
         setup(false);
         let home_dir = home_dir().unwrap().to_str().unwrap().to_string();
         let whisper_dir = &format!("{}/.whisper", home_dir);
@@ -175,10 +175,7 @@ mod tests {
         );
         assert_eq!(PathBuf::from("whisper.cpp.zip").exists(), false);
         assert_eq!(PathBuf::from("whisper.cpp-master").exists(), false);
-    }
 
-    #[test]
-    fn test_run() {
         run(PathBuf::from(
             "test/test folder.with\\weird^~..symbols/test.mp3",
         ));
