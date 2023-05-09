@@ -176,4 +176,19 @@ mod tests {
         assert_eq!(PathBuf::from("whisper.cpp.zip").exists(), false);
         assert_eq!(PathBuf::from("whisper.cpp-master").exists(), false);
     }
+
+    #[test]
+    fn test_run() {
+        run(PathBuf::from(
+            "test/test folder.with\\weird^~..symbols/test.mp3",
+        ));
+        assert_eq!(
+            PathBuf::from("test/test folder.with\\weird^~..symbols/test.wav").exists(),
+            false
+        );
+        assert_eq!(
+            PathBuf::from("test/test folder.with\\weird^~..symbols/test.txt").exists(),
+            true
+        );
+    }
 }
