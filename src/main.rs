@@ -1,6 +1,9 @@
 use std::{
     env::set_current_dir,
+    path::PathBuf,
     process::{Command, Stdio},
+    thread::sleep,
+    time::Duration,
 };
 
 use clap::{command, Parser};
@@ -16,6 +19,13 @@ enum CargoCli {
         /// Install ffmpeg
         #[arg(short = 'f', long = "ffmpeg")]
         ffmpeg: bool,
+    },
+    /// Run whisper-cli on a file
+    #[command(arg_required_else_help = true)]
+    Run {
+        /// Path to the audio file
+        #[arg(required = true)]
+        path: PathBuf,
     },
 }
 
@@ -86,13 +96,31 @@ fn setup(ffmpeg: bool) {
     println!("Whisper setup complete ✅");
 }
 
-fn main() {
-    let args = CargoCli::parse();
+fn run(path: PathBuf) {
+    let base_file_name = path.file_name().unwrap().to_str().unwrap();
+    let path_name = path.parent().unwrap().to_str().unwrap();
+    let file_name = base_file_name
+        .split(".")
+        .collect::<Vec<&str>>()
+        .into_iter()
+        .take(base_file_name.split(".").collect::<Vec<&str>>().len() - 1)
+        .collect::<Vec<&str>>()
+        .join(".");
+    let file_path_name = format!("{}/{}", path_name, file_name);
 
-    match args {
-        CargoCli::Setup { ffmpeg } => setup(ffmpeg),
-    }
-}
+    println!("Converting {} to wav 🎞", base_file_name);
+    Command::new("ffmpeg")
+        .args([
+            "-i",
+            path.to_str().unwrap(),
+            "-ar",
+            "16000",
+            "-f",
+            "wav",
+            format!("{}.wav", file_path_name).as_str(),
+        ])
+        .output()
+        .expect("failed to execute ffmpeg");
 
     sleep(Duration::from_millis(1000));
 
