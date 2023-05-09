@@ -1,6 +1,9 @@
 name: Release
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -8,11 +11,8 @@ permissions:
 
 jobs:
   release-please:
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest]
-    name: Release ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: Release Please
+    runs-on: ubuntu-latest
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
