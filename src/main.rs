@@ -1,5 +1,4 @@
 use std::{
-    env::set_current_dir,
     path::PathBuf,
     process::{Command, Stdio},
     thread::sleep,
@@ -80,17 +79,19 @@ fn setup(ffmpeg: bool) {
         false => println!("Skipping ffmpeg installation 🚫"),
     }
 
-    set_current_dir(whisper_dir).expect("failed to enter whisper folder");
-
     println!("Downloading base.en 📥");
     Command::new("bash")
-        .args(["./models/download-ggml-model.sh", "base.en"])
+        .args([
+            format!("{whisper_dir}/models/download-ggml-model.sh").as_str(),
+            "base.en",
+        ])
         .output()
         .expect("failed to execute bash ./models/download-ggml-model.sh base.en");
 
     println!("Compiling whisper.cpp 🛠");
     Command::new("make")
-        .output()
+        .arg(format!("--directory={whisper_dir}"))
+        .status()
         .expect("failed to execute make");
 
     println!("Whisper setup complete ✅");
@@ -119,7 +120,7 @@ fn run(path: PathBuf) {
             "wav",
             format!("{}.wav", file_path_name).as_str(),
         ])
-        .output()
+        .status()
         .expect("failed to execute ffmpeg");
 
     sleep(Duration::from_millis(1000));
@@ -130,9 +131,9 @@ fn run(path: PathBuf) {
     Command::new(format!("{}/main", whisper_dir))
         .args([
             "-m",
-            &format!("{}/models/ggml-base.en.bin", whisper_dir),
+            format!("{whisper_dir}/models/ggml-base.en.bin").as_str(),
             "-f",
-            format!("{}.wav", file_path_name).as_str(),
+            format!("{file_path_name}.wav").as_str(),
             "-otxt",
             "-of",
             &file_path_name,
@@ -142,7 +143,7 @@ fn run(path: PathBuf) {
 
     println!("Deleting wav file 🗑");
     Command::new("rm")
-        .args([format!("{}.wav", file_path_name).as_str()])
+        .args([format!("{file_path_name}.wav").as_str()])
         .output()
         .expect("failed to execute rm");
 }
@@ -163,7 +164,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_setup() {
+    fn test_workflow() {
         setup(false);
         let home_dir = home_dir().unwrap().to_str().unwrap().to_string();
         let whisper_dir = &format!("{}/.whisper", home_dir);
@@ -175,10 +176,7 @@ mod tests {
         );
         assert_eq!(PathBuf::from("whisper.cpp.zip").exists(), false);
         assert_eq!(PathBuf::from("whisper.cpp-master").exists(), false);
-    }
 
-    #[test]
-    fn test_run() {
         run(PathBuf::from(
             "test/test folder.with\\weird^~..symbols/test.mp3",
         ));
