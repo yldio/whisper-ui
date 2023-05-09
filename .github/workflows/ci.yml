@@ -1,4 +1,4 @@
-name: Rust CI
+name: Build
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-    name: Test `cargo check/test` on ${{ matrix.os }}
+    name: Test ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     env:
@@ -23,14 +23,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: install rust
+      - name: Install rust
         run: |
           rustup set auto-self-update disable
           rustup toolchain install stable --profile minimal
 
       - uses: FedericoCarboni/setup-ffmpeg@v2
 
-      - name: run tests
+      - name: Run tests
         run: |
           cargo check
           cargo test
