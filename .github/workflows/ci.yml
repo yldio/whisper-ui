@@ -1,0 +1,28 @@
+name: Rust CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    name: Test `cargo check/test` on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    env:
+      CARGO_TERM_COLOR: always
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: |
+          rustup set auto-self-update disable
+          rustup toolchain install stable --profile minimal
+
+      - run: |
+          cargo check
+          cargo test
