@@ -23,6 +23,8 @@ jobs:
           rustup set auto-self-update disable
           rustup toolchain install stable --profile minimal
 
+      - uses: FedericoCarboni/setup-ffmpeg@v2
+
       - run: |
           cargo check
           cargo test
