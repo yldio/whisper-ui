@@ -155,3 +155,25 @@ fn main() {
         CargoCli::Run { path } => run(path),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::path::PathBuf;
+
+    use super::*;
+
+    #[test]
+    fn test_setup() {
+        setup(false);
+        let home_dir = home_dir().unwrap().to_str().unwrap().to_string();
+        let whisper_dir = &format!("{}/.whisper", home_dir);
+        assert_eq!(PathBuf::from(whisper_dir).exists(), true);
+        assert_eq!(PathBuf::from(format!("{whisper_dir}/main")).exists(), true);
+        assert_eq!(
+            PathBuf::from(format!("{}/models/ggml-base.en.bin", whisper_dir)).exists(),
+            true
+        );
+        assert_eq!(PathBuf::from("whisper.cpp.zip").exists(), false);
+        assert_eq!(PathBuf::from("whisper.cpp-master").exists(), false);
+    }
+}
