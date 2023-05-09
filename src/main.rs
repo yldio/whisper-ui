@@ -119,7 +119,7 @@ fn run(path: PathBuf) {
             "wav",
             format!("{}.wav", file_path_name).as_str(),
         ])
-        .output()
+        .status()
         .expect("failed to execute ffmpeg");
 
     sleep(Duration::from_millis(1000));
