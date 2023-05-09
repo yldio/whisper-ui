@@ -23,10 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install rust
-        run: |
-          rustup set auto-self-update disable
-          rustup toolchain install stable --profile minimal
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
 
       - uses: FedericoCarboni/setup-ffmpeg@v2
 

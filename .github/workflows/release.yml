@@ -1,0 +1,84 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: rust
+          package-name: whisper-cli
+          command: github-release
+
+  release:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    name: Release ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: release-please
+    if: needs.release-please.outputs.releases_created == 'true'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: "aarch64-apple-darwin, x86_64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu"
+
+      - name: Build for MacOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          cargo build --release --target aarch64-apple-darwin
+          mv target/aarch64-apple-darwin/release/whisper-cli target/aarch64-apple-darwin/release/whisper-cli-apple-arm
+
+      - name: Build for MacOS ARM
+        if: matrix.os == 'macos-latest'
+        run: |
+          cargo build --release --target x86_64-apple-darwin
+          mv target/x86_64-apple-darwin/release/whisper-cli target/x86_64-apple-darwin/release/whisper-cli-apple-x86
+
+      - name: Build for Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cargo build --release --target x86_64-unknown-linux-gnu
+          mv target/x86_64-unknown-linux-gnu/release/whisper-cli target/x86_64-unknown-linux-gnu/release/whisper-cli-linux-x86
+
+      - name: Build for Linux ARM
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: aarch64-linux-gnu-gcc
+          CC_aarch64_unknown_linux_gnu: aarch64-linux-gnu-gcc
+          CXX_aarch64_unknown_linux_gnu: aarch64-linux-gnu-g++
+        run: |
+          sudo apt-get install -y g++-aarch64-linux-gnu
+          cargo build --release --target aarch64-unknown-linux-gnu
+          mv target/aarch64-unknown-linux-gnu/release/whisper-cli target/aarch64-unknown-linux-gnu/release/whisper-cli-linux-arm
+
+      - name: Upload Linux release assets
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          gh release upload ${{ needs.release-please.outputs.tag_name }} target/x86_64-unknown-linux-gnu/release/whisper-cli-linux-x86
+          gh release upload ${{ needs.release-please.outputs.tag_name }} target/aarch64-unknown-linux-gnu/release/whisper-cli-linux-arm
+
+      - name: Upload MacOS release assets
+        if: matrix.os == 'macos-latest'
+        run: |
+          gh release upload ${{ needs.release-please.outputs.tag_name }} target/x86_64-apple-darwin/release/whisper-cli-apple-x86
+          gh release upload ${{ needs.release-please.outputs.tag_name }} target/aarch64-apple-darwin/release/whisper-cli-apple-arm
