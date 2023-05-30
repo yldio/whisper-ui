@@ -1,9 +1,6 @@
 lockfileVersion: '6.0'
 
 dependencies:
-  '@solid-primitives/upload':
-    specifier: ^0.0.112
-    version: 0.0.112(solid-js@1.7.5)
   '@tauri-apps/api':
     specifier: ^1.3.0
     version: 1.3.0
@@ -647,23 +644,6 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
     dev: true
-
-  /@solid-primitives/upload@0.0.112(solid-js@1.7.5):
-    resolution: {integrity: sha512-dUbpAHtl6SM5qzr6RCxkUMdLIR5D+mw/jCIr/sPEocWmsPj/vuCHG8p/vpfzZdW9pPciX7HUq04xmN2IZCgALQ==}
-    peerDependencies:
-      solid-js: ^1.6.12
-    dependencies:
-      '@solid-primitives/utils': 6.1.1(solid-js@1.7.5)
-      solid-js: 1.7.5
-    dev: false
-
-  /@solid-primitives/utils@6.1.1(solid-js@1.7.5):
-    resolution: {integrity: sha512-wxxUdxja126jTROs9Ro8Z5ExbHs9rv2Tl744S3Qmzki/gTcTXW8D1TvTArQcjqkCvSw8OIQ2EO2NI8sR28Trxg==}
-    peerDependencies:
-      solid-js: ^1.6.12
-    dependencies:
-      solid-js: 1.7.5
-    dev: false
 
   /@tauri-apps/api@1.3.0:
     resolution: {integrity: sha512-AH+3FonkKZNtfRtGrObY38PrzEj4d+1emCbwNGu0V2ENbXjlLHMZQlUh+Bhu/CRmjaIwZMGJ3yFvWaZZgTHoog==}

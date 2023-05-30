@@ -12,7 +12,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@solid-primitives/upload": "^0.0.112",
     "@tauri-apps/api": "^1.3.0",
     "solid-js": "^1.7.5"
   },
