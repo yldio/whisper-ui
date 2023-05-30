@@ -41,10 +41,11 @@
     "windows": [
       {
         "fullscreen": false,
-        "resizable": true,
-        "title": "whisper-ui",
-        "width": 800,
-        "height": 600
+        "resizable": false,
+        "title": "Whisper UI",
+        "label": "main",
+        "width": 500,
+        "height": 400
       }
     ]
   }
