@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -33,6 +33,50 @@ module.exports = {
         charcoal: '#232323',
         mineshaft: '#333333',
         dovegray: '#737373',
+      },
+      scale: {
+        40: '0.40',
+        120: '1.20',
+      },
+      keyframes: {
+        quiet: {
+          '25%': {
+            transform: 'scaleY(0.6)',
+          },
+          '50%': {
+            transform: 'scaleY(0.4)',
+          },
+          '75%': {
+            transform: 'scaleY(0.8)',
+          },
+        },
+        medium: {
+          '25%': {
+            transform: 'scaleY(1)',
+          },
+          '50%': {
+            transform: 'scaleY(0.4)',
+          },
+          '75%': {
+            transform: 'scaleY(0.6)',
+          },
+        },
+        loud: {
+          '25%': {
+            transform: 'scaleY(1)',
+          },
+          '50%': {
+            transform: 'scaleY(0.4)',
+          },
+          '75%': {
+            transform: 'scaleY(1.2)',
+          },
+        },
+      },
+      animation: {
+        quiet: 'quiet 1.2s ease-in-out infinite',
+        normal: 'medium 1.2s ease-in-out infinite',
+        loud: 'loud 1.2s ease-in-out infinite',
       },
     },
   },
