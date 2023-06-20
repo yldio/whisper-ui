@@ -1,17 +1,18 @@
 # Whisper CLI
 
+A GUI utility for helping you convert your video files into txt files.
+
+<img width="612" alt="image" src="https://github.com/yldio/whisper-ui/assets/19473034/8e346c5c-86b7-4a27-ad99-b1fa80d114ae"/>
+
 ## Installation
 
-This CLI application is distributed via a binary, therefore no installation is necessary. You can download the latest release [here](https://github.com/yldio/whisper-cli/releases/latest) for your platform.
+You can download the latest release [here](https://github.com/yldio/whisper-cli/releases/latest) for your platform.
 
-## Usage
+### Requirements
 
-Run the following in your terminal to see the available commands:
-
-```bash
-./whisper-cli --help
-```
+- [ffmpeg](https://ffmpeg.org/) must be installed and available in your `PATH`.
+- [make](https://www.gnu.org/software/make/) must be installed and available in your `PATH`.
 
 ## Development
 
-Rust and Cargo are required to build this project. You can install them using [rustup](https://rustup.rs/).
+This is a Tauri application, therefore there are some requirements to build it. You can find more information about Tauri [here](https://tauri.studio/en/docs/getting-started/intro).
