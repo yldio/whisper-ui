@@ -18,3 +18,7 @@ test/test folder.with\\weird^~..symbols/test.txt
 
 # MacOS
 .DS_Store
+
+# Node.js
+node_modules
+dist
