@@ -15,7 +15,7 @@ jobs:
         settings:
           - platform: 'macos-latest'
             args: '--target universal-apple-darwin'
-          - platform: 'ubuntu-20.04'
+          - platform: 'ubuntu-latest'
             args: ''
     runs-on: ${{ matrix.settings.platform }}
 
@@ -27,6 +27,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev librsvg2-dev
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin
       - uses: swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
