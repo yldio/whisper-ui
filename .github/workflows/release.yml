@@ -38,6 +38,7 @@ jobs:
           node-version: 18
           cache: 'pnpm'
       - run: pnpm install
+      - run: jq '.package.version = "${${{ github.ref_name }}#v}"' src-tauri/tauri.conf.json > tmp && mv tmp src-tauri/tauri.conf.json
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
         env:
