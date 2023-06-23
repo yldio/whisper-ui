@@ -1,6 +1,5 @@
 {
   "name": "whisper-ui",
-  "version": "1.0.0",
   "description": "A whisper GUI to help with whisper speech recognition",
   "scripts": {
     "start": "vite",
