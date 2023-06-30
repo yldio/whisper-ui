@@ -2,7 +2,7 @@
 
 A GUI utility for helping you convert your video files into txt files.
 
-<img width="612" alt="image" src="https://github.com/yldio/whisper-ui/assets/19473034/8e346c5c-86b7-4a27-ad99-b1fa80d114ae"/>
+<img width="612" alt="image" src="https://github.com/yldio/whisper-ui/assets/19473034/ff21b1a3-5a6a-4866-b4b9-287ec3c8e0d8"/>
 
 ## Installation
 
