@@ -15,4 +15,4 @@ You can download the latest release [here](https://github.com/yldio/whisper-cli/
 
 ## Development
 
-This is a Tauri application, therefore there are some requirements to build it. You can find more information about Tauri [here](https://tauri.studio/en/docs/getting-started/intro).
+This is a Tauri application, therefore there are some requirements to build it. You can find more information about Tauri [here](https://tauri.app/v1/guides/getting-started/prerequisites).
